@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Натальная карта — 19.01.1987</title>
+<style>
+  :root{
+    --bg1:#2a1a52; --bg2:#140a30; --bg3:#0b0518;
+    --card:#241645; --card2:#2e1c58; --line:rgba(255,255,255,.12);
+    --text:#f3efff; --muted:#b5a6d9; --accent:#a985ff; --accent2:#7c5cfc; --gold:#e9c46a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:radial-gradient(1200px 600px at 20% -5%, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
+    color:var(--text);
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+    min-height:100vh; display:flex; justify-content:center;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; opacity:.55; z-index:0;
+    background-image:
+      radial-gradient(1.6px 1.6px at 12% 18%, #fff, transparent),
+      radial-gradient(1.3px 1.3px at 82% 12%, #fff, transparent),
+      radial-gradient(1.2px 1.2px at 63% 34%, #cdb8ff, transparent),
+      radial-gradient(1.7px 1.7px at 25% 62%, #fff, transparent),
+      radial-gradient(1.2px 1.2px at 74% 70%, #fff, transparent),
+      radial-gradient(1.4px 1.4px at 45% 85%, #d7c6ff, transparent),
+      radial-gradient(1.1px 1.1px at 90% 45%, #fff, transparent),
+      radial-gradient(1.3px 1.3px at 8% 78%, #fff, transparent),
+      radial-gradient(1.1px 1.1px at 55% 8%, #fff, transparent),
+      radial-gradient(1.2px 1.2px at 38% 40%, #fff, transparent);
+  }
+  .device{width:100%; max-width:430px; padding:0 0 96px; position:relative; z-index:1}
+
+  .header{display:flex; align-items:center; gap:14px; padding:20px 20px 6px}
+  .back{font-size:24px; line-height:1; opacity:.85; cursor:pointer; user-select:none}
+  .title{font-size:19px; font-weight:600; letter-spacing:.2px}
+  .ctx{display:flex; gap:12px; justify-content:center; color:var(--muted); font-size:13.5px; padding:4px 0 16px}
+  .ctx .sep{opacity:.35}
+
+  .section{padding:0 16px; margin-bottom:18px}
+  .card{
+    background:linear-gradient(160deg, rgba(124,92,252,.16), rgba(36,22,69,.85));
+    border:1px solid var(--line); border-radius:22px; padding:16px;
+    box-shadow:0 12px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
+  }
+  .card-head{display:flex; align-items:center; gap:10px; cursor:pointer}
+  .card-head .ic{width:26px;height:26px;border-radius:8px;background:var(--accent2);display:flex;align-items:center;justify-content:center;font-size:14px}
+  .card-head .lab{font-size:14px;font-weight:600;flex:1}
+  .chev{opacity:.7; transition:transform .25s}
+  .card.open .chev{transform:rotate(180deg)}
+
+  .wheel-wrap{margin-top:14px; display:none}
+  .card.open .wheel-wrap{display:block}
+  .wheel-wrap img{width:100%; border-radius:16px; display:block; background:#0d0620}
+  .wheel-meta{display:flex; justify-content:space-between; margin-top:10px; color:var(--muted); font-size:12.5px}
+
+  h2.sect{font-size:17px; font-weight:600; margin:4px 4px 12px; letter-spacing:.2px}
+
+  .tags{display:grid; grid-template-columns:1fr 1fr; gap:9px}
+  .tag{border:1px solid rgba(169,133,255,.45); background:rgba(124,92,252,.12); color:#e9e2ff;
+       padding:12px 14px; border-radius:14px; font-size:13.5px; text-align:center;
+       cursor:pointer; transition:transform .12s, border-color .2s, background .2s; user-select:none}
+  .tag:hover{transform:translateY(-1px); border-color:rgba(169,133,255,.75); background:rgba(124,92,252,.24)}
+
+  .pcard{
+    display:flex; align-items:center; gap:12px; padding:13px 15px; border-radius:18px;
+    background:linear-gradient(160deg, rgba(124,92,252,.14), rgba(36,22,69,.75));
+    border:1px solid var(--line); margin-bottom:10px; cursor:pointer; transition:transform .12s, border-color .2s;
+  }
+  .pcard:hover{transform:translateY(-1px); border-color:rgba(169,133,255,.5)}
+  .pcard .glyph{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    font-size:20px; background:rgba(124,92,252,.22); color:#e9dcff; flex:0 0 auto}
+  .pcard .pinfo{flex:1; min-width:0}
+  .pcard .pname{font-size:14.5px; font-weight:600}
+  .pcard .psub{font-size:12px; color:var(--muted); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .pcard .pbadge{font-size:12px; color:var(--gold); border:1px solid rgba(233,196,106,.4); border-radius:10px; padding:3px 8px; white-space:nowrap}
+
+  .hgrid{display:grid; grid-template-columns:1fr 1fr; gap:11px}
+  .hcard{background:linear-gradient(160deg, rgba(124,92,252,.13), rgba(36,22,69,.7)); border:1px solid var(--line);
+    border-radius:16px; padding:12px 13px; cursor:pointer; transition:border-color .2s}
+  .hcard:hover{border-color:rgba(169,133,255,.5)}
+  .hcard .hrow{display:flex; align-items:center; justify-content:space-between}
+  .hcard .hnum{font-size:13px; color:#d9cfff; font-weight:600}
+  .hcard .hg{font-size:19px; color:var(--gold)}
+  .hcard .hdeg{font-size:12px; color:var(--muted); margin-top:7px}
+  .hcard .hkey{font-size:11.5px; color:#9d8cc4; margin-top:3px}
+
+  .asp{display:flex; align-items:center; gap:10px; font-size:13px; padding:9px 6px; border-bottom:1px solid rgba(255,255,255,.06);
+    cursor:pointer; border-radius:8px; transition:background .15s}
+  .asp:last-child{border-bottom:none}
+  .asp:hover{background:rgba(124,92,252,.14)}
+  .asp .ag{width:18px; color:var(--gold); font-size:15px; text-align:center}
+  .asp .ap{font-weight:600}
+  .asp .at{color:var(--accent); font-size:12px; border:1px solid rgba(169,133,255,.35); border-radius:8px; padding:1px 7px}
+  .asp .ao{margin-left:auto; color:var(--muted); font-size:12px}
+
+  .two{display:grid; grid-template-columns:1fr; gap:10px}
+  .mini{border-radius:16px; padding:12px 14px; border:1px solid var(--line)}
+  .mini h4{margin:0 0 6px; font-size:13.5px}
+  .mini p{margin:0; font-size:12.5px; color:var(--muted); line-height:1.5}
+  .good{background:linear-gradient(160deg,rgba(60,180,120,.12),rgba(36,22,69,.6))}
+  .warn{background:linear-gradient(160deg,rgba(220,120,90,.12),rgba(36,22,69,.6))}
+
+  .tabbar{position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:430px;
+    background:rgba(16,8,38,.92); backdrop-filter:blur(14px); border-top:1px solid var(--line);
+    display:flex; justify-content:space-around; padding:10px 4px calc(10px + env(safe-area-inset-bottom)); z-index:20}
+  .tab{display:flex; flex-direction:column; align-items:center; gap:4px; color:var(--muted); font-size:10.5px; width:66px; cursor:pointer}
+  .tab .ti{font-size:18px}
+  .tab.active{color:#fff}
+  .tab.active .ti{background:var(--accent2); width:44px; height:32px; border-radius:14px; display:flex; align-items:center; justify-content:center}
+
+  .overlay{position:fixed; inset:0; background:rgba(6,3,16,.7); backdrop-filter:blur(6px); z-index:50; display:none;
+    align-items:flex-end; justify-content:center}
+  .overlay.on{display:flex}
+  .sheet{width:100%; max-width:430px; background:linear-gradient(180deg,#2a1a52,#160c33);
+    border-radius:26px 26px 0 0; padding:22px 22px 34px; border-top:1px solid var(--line);
+    box-shadow:0 -20px 60px rgba(0,0,0,.6); max-height:82vh; overflow:auto; animation:up .25s ease}
+  @keyframes up{from{transform:translateY(40px);opacity:.6}to{transform:translateY(0);opacity:1}}
+  .sheet .sh-top{display:flex; align-items:center; gap:14px; margin-bottom:12px}
+  .sheet .sh-glyph{width:52px;height:52px;border-radius:16px;background:rgba(124,92,252,.25);display:flex;align-items:center;justify-content:center;font-size:26px}
+  .sheet h3{margin:0; font-size:18px}
+  .sheet .sh-sub{color:var(--gold); font-size:13px; margin-top:3px}
+  .sheet .sh-close{margin-left:auto; font-size:26px; color:var(--muted); cursor:pointer; line-height:1}
+  .sheet .badges{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0}
+  .sheet .badge{font-size:12px; color:#e9e2ff; border:1px solid rgba(169,133,255,.4); border-radius:9px; padding:4px 10px}
+  .sheet p{font-size:14px; line-height:1.62; color:#ded6f4; margin:10px 0}
+  .sheet p .hl{color:var(--gold); font-weight:600}
+  .sheet .kv{display:flex; justify-content:space-between; font-size:13px; padding:7px 0; border-bottom:1px solid rgba(255,255,255,.07)}
+  .sheet .kv span:first-child{color:var(--muted)}
+  .foot{text-align:center; color:#7a6aa0; font-size:11px; padding:6px 24px 20px; line-height:1.5}
+</style>
+</head>
+<body>
+<div class="device">
+  <div class="header">
+    <div class="back">&#8249;</div>
+    <div class="title">Натальная карта</div>
+  </div>
+  <div class="ctx"><span>19 января 1987</span><span class="sep">|</span><span>06:46</span><span class="sep">|</span><span>Москва</span></div>
+
+  <div class="section">
+    <div class="card open" id="wheelCard">
+      <div class="card-head" onclick="document.getElementById('wheelCard').classList.toggle('open')">
+        <div class="ic">&#9678;</div>
+        <div class="lab">Круг натальной карты</div>
+        <div class="chev">&#9650;</div>
+      </div>
+      <div class="wheel-wrap">
+        
+        <div class="wheel-meta"><span>ASC &#8594; Стрелец 23°30′</span><span>MC &#8594; Скорпион 4°23′</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="sect">Кратко о тебе</h2>
+    <div class="tags" id="tags"></div>
+  </div>
+
+  <div class="section">
+    <h2 class="sect">Твои планеты</h2>
+    <div id="planets"></div>
+  </div>
+
+  <div class="section">
+    <h2 class="sect">Дома карты</h2>
+    <div class="hgrid" id="houses"></div>
+  </div>
+
+  <div class="section">
+    <h2 class="sect">Ключевые аспекты</h2>
+    <div class="card" style="padding:8px 12px"><div id="aspects"></div></div>
+  </div>
+
+  <div class="section">
+    <h2 class="sect">Сильные стороны и рост</h2>
+    <div class="two">
+      <div class="mini good"><h4>Сильные стороны</h4><p>Независимость, дисциплина и честолюбие, психологическая глубина, смелость.</p></div>
+      <div class="mini warn"><h4>Точки роста</h4><p>Сверять планы с реальностью. Держать баланс между ростом и ограничением. Не копить чувства внутри, давать им выход.</p></div>
+    </div>
+  </div>
+
+  <div class="foot">Символическая интерпретация в западной (тропической) традиции.<br>Данные рассчитаны по AstrologyAPI &middot; дома Плацидус</div>
+</div>
+
+<div class="tabbar">
+  <div class="tab"><div class="ti">&#8962;</div>Главная</div>
+  <div class="tab"><div class="ti">&#127183;</div>Таро</div>
+  <div class="tab active"><div class="ti">&#9807;</div>Гороскоп</div>
+  <div class="tab"><div class="ti">&#9789;</div>Луна</div>
+  <div class="tab"><div class="ti">&#8767;</div>Биоритмы</div>
+</div>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+const PLANETS = [
+  {glyph:"\u2609", name:"Солнце", sign:"Козерог", deg:"28°31′", house:"I дом",
+   sub:"Эго, индивидуальность, персона",
+   signText:"Козерогом управляет Сатурн — планета предела и времени. Отсюда выдержка, упорство и честолюбие: человек идёт к цели медленно, но не сворачивает, и способен годами делать то, что другим надоедает за месяц. С себя спрашивает строже, чем с других.",
+   houseText:"В 1-м доме Солнце стоит на Асценденте: человек — цельная, самодостаточная личность с ясным ощущением себя. Склонен к лидерству и инициативе; о себе заявляет делами, а не словами."},
+  {glyph:"\u263D", name:"Луна", sign:"Дева", deg:"13°37′", house:"VIII дом",
+   sub:"Эмоции, инстинкты, корни",
+   signText:"Дева — знак порядка. Спокойствие приходит, когда всё разложено по местам; хаос и незавершённость выбивают из колеи. Чувства человек выражает не словами, а заботой и помощью.",
+   houseText:"В 8-м доме эмоции глубокие и скрытые. Человек остро нуждается в безопасности, но не показывает этого; тонко считывает чужие мотивы, тянется к психологии и тайному. Нередко — наследство или общие деньги."},
+  {glyph:"\u263F", name:"Меркурий", sign:"Водолей", deg:"2°43′", house:"I дом",
+   sub:"Мышление, общение, интеллект",
+   signText:"Водолей — знак отстранённого ума. Мышление системное и обращено в будущее: человеку даются гипотезы и прогнозы, от которых у других кружится голова. Слабое место — скука от мелочей и рутины.",
+   houseText:"В 1-м доме ум виден сразу: быстрая речь, живое любопытство, на всё своё мнение. Человек легко встраивается в новое и охотно высказывается. В соединении с Солнцем мысль служит воле."},
+  {glyph:"\u2640", name:"Венера", sign:"Стрелец", deg:"11°42′", house:"XII дом",
+   sub:"Любовь, ценности, удовольствие",
+   signText:"Стрелец — знак смысла и свободы. В любви важны честность, общая идея и простор; теснота и быт чувства гасят.",
+   houseText:"В 12-м доме чувства прячутся и идеализируются, часто остаются невысказанными. Любовь человек проживает внутри. Соединение с Сатурном: чувства сдержанные, раскрываются медленно, но надолго."},
+  {glyph:"\u2642", name:"Марс", sign:"Овен", deg:"7°26′", house:"III дом",
+   sub:"Воля, действие, напор",
+   signText:"Овен — обитель Марса. Действие прямое и быстрое: человек загорается мгновенно и так же быстро переключается. В конфликте бьёт открыто.",
+   houseText:"В 3-м доме напор уходит в речь: человек спорит, отстаивает своё, режет правду в глаза. Квадрат к Нептуну — главный напряжённый аспект: порыв легко уводит в иллюзию; опора — факты и границы."},
+  {glyph:"\u2643", name:"Юпитер", sign:"Рыбы", deg:"20°42′", house:"II дом",
+   sub:"Рост, изобилие, мировоззрение",
+   signText:"Рыбы — обитель Юпитера. Рост идёт через веру, чутьё и сострадание, а не через расчёт. Человек щедр и доверчив; удача приходит там, где он помогает.",
+   houseText:"Во 2-м доме деньги приходят через творчество и помощь, но и уходят легко — человек щедр в тратах. Квадраты к Сатурну и Урану: рост то упирается в стену, то срывается."},
+  {glyph:"\u2644", name:"Сатурн", sign:"Стрелец", deg:"17°18′", house:"XII дом",
+   sub:"Дисциплина, ограничения, уроки",
+   signText:"Сатурн в Стрельце — убеждения проверяются. Свою систему ценностей человек выстраивает сам; чужие истины не приживаются.",
+   houseText:"В 12-м доме Сатурн работает через уединение. Человек сильнее наедине с собой; страхи и чувство вины — материал для внутренней работы."},
+  {glyph:"\u2645", name:"Уран", sign:"Стрелец", deg:"24°37′", house:"I дом",
+   sub:"Оригинальность, перемены, свобода",
+   signText:"Уран в Стрельце — человек не терпит рамок и ломает устоявшееся ради истины.",
+   houseText:"В 1-м доме, в соединении с Асцендентом — самый сильный акцент карты: внешность и манера нестандартные, первое впечатление резкое. Судьба делает внезапные повороты; человек живёт по своим правилам."},
+  {glyph:"\u2646", name:"Нептун", sign:"Козерог", deg:"6°22′", house:"I дом",
+   sub:"Мечты, интуиция, границы",
+   signText:"Нептун в Козероге — человек идеализирует статус и собственный образ; грань между «есть» и «хочется» плывёт.",
+   houseText:"В 1-м доме — тонкая кожа: человек впитывает чужие настроения и считывает атмосферу. Границы «я» проницаемы, нужна сверка с реальностью."},
+  {glyph:"\u2647", name:"Плутон", sign:"Скорпион", deg:"9°48′", house:"X дом",
+   sub:"Трансформация, власть, призвание",
+   signText:"Скорпион — обитель Плутона. Воля огромная, кризис не ломает, а перерождает; поверхностного человек не переносит.",
+   houseText:"В 10-м доме — сильнейший карьерный акцент: призвание через власть, исследование и работу с глубинным (психология, аналитика, кризис-менеджмент). Управитель MC стоит в доме карьеры: работа как судьба."}
+];
+
+const HOUSES = [
+  {n:"I", sign:"Стрелец", deg:"23°30′", g:"\u2650", key:"Я, тело, самоподача", planets:"Солнце, Меркурий, Уран, Нептун",
+   signText:"Подача открытая и оптимистичная: широта, энтузиазм, лёгкость на подъём.",
+   houseText:"Солнце, Меркурий, Уран и Нептун: самоподача яркая и противоречивая — воля и ум рядом с бунтом и размытостью."},
+  {n:"II", sign:"Водолей", deg:"11°28′", g:"\u2652", key:"Деньги, ресурсы", planets:"Юпитер",
+   signText:"К деньгам — нестандартный подход: доход из неожиданных источников.",
+   houseText:"Юпитер: деньги приходят легко и уходят так же. Зарабатывает на идеях и помощи."},
+  {n:"III", sign:"Овен", deg:"2°56′", g:"\u2648", key:"Общение, обучение", planets:"Марс, Северный узел",
+   signText:"Речь прямая и быстрая: первым заговаривает, легко спорит.",
+   houseText:"Марс в обители и Северный узел: общение — главная арена роста; урок — говорить от первого лица."},
+  {n:"IV", sign:"Телец", deg:"4°23′", g:"\u2649", key:"Дом, семья, корни", planets:"Колесо Фортуны",
+   signText:"Дом и корни — источник опоры: быт основательный, комфорт важен.",
+   houseText:"Колесо Фортуны: достаток через дом, собственность и семью."},
+  {n:"V", sign:"Телец", deg:"24°26′", g:"\u2649", key:"Творчество, романтика", planets:"—",
+   signText:"Творчество и романтика — через удовольствие: красота и комфорт важнее азарта.",
+   houseText:"Дом пуст: темы живут спокойно, через стабильные увлечения."},
+  {n:"VI", sign:"Близнецы", deg:"9°39′", g:"\u264A", key:"Здоровье, рутина", planets:"Хирон",
+   signText:"Работа и здоровье завязаны на информацию: нужна смена занятий, движение, общение.",
+   houseText:"Хирон: «рана целителя» в рутине — уязвимость в мелочах, но и дар помогать."},
+  {n:"VII", sign:"Близнецы", deg:"23°30′", g:"\u264A", key:"Партнёрство, брак", planets:"Лилит",
+   signText:"Партнёр — умный и общительный: отношения держатся на разговоре.",
+   houseText:"Лилит: теневая тема зависимости и независимости в паре."},
+  {n:"VIII", sign:"Лев", deg:"11°28′", g:"\u264C", key:"Трансформация, интимность", planets:"Луна",
+   signText:"Темы кризиса и интимности проживаются страстно, с сердцем.",
+   houseText:"Луна: эмоциональная жизнь глубокая и скрытая, чутьё на мотивы; нередко наследство."},
+  {n:"IX", sign:"Весы", deg:"2°56′", g:"\u264E", key:"Мировоззрение, дали", planets:"—",
+   signText:"Истину человек ищет в диалоге, ценит справедливость.",
+   houseText:"Дом пуст: темы раскрываются через выбор и равновесие."},
+  {n:"X", sign:"Скорпион", deg:"4°23′", g:"\u264F", key:"Карьера, статус", planets:"Плутон",
+   signText:"Карьера — поле власти: человек нацелен на успех.",
+   houseText:"Плутон — управитель MC: призвание через исследование и глубину; работа как судьба."},
+  {n:"XI", sign:"Скорпион", deg:"24°26′", g:"\u264F", key:"Друзья, цели", planets:"—",
+   signText:"Дружба избирательная: людей мало, связи на всю жизнь.",
+   houseText:"Дом пуст: темы раскрываются через верность избранному кругу."},
+  {n:"XII", sign:"Стрелец", deg:"9°39′", g:"\u2650", key:"Подсознание, уединение", planets:"Венера, Сатурн",
+   signText:"Уединение окрашено поиском смысла: ответы в тишине.",
+   houseText:"Венера и Сатурн: любовь и уроки уходят вглубь; мудрость через паузы."}
+];
+
+const ASPECTS = [
+  {a:"Уран", t:"соединение", b:"Асцендент", o:"1°12′", g:"\u260C",
+   text:"Уран на Асценденте: человек нестандартный с первого взгляда, независимый по сути. Судьба даёт резкие повороты, правила он ставит сам."},
+  {a:"Марс", t:"квадрат", b:"Нептун", o:"1°08′", g:"\u25A1",
+   text:"Порыв уводит в туман: человек рискует действовать вслепую и обманываться. Опора — факты и чёткие границы."},
+  {a:"Луна", t:"квадрат", b:"Венера", o:"1°55′", g:"\u25A1",
+   text:"Надёжность (Луна в Деве) против свободы и идеала (Венера в Стрельце). Чувства мечутся между «надёжно» и «свободно»."},
+  {a:"Юпитер", t:"квадрат", b:"Сатурн", o:"3°24′", g:"\u25A1",
+   text:"Разгон против тормоза: вера бьётся о долг и страх не успеть. Рост идёт рывками; задача — найти свой ритм."},
+  {a:"Нептун", t:"секстиль", b:"Плутон", o:"3°45′", g:"\u26B9",
+   text:"Умение чувствовать скрытое и превращать кризис в рост."},
+  {a:"Луна", t:"квадрат", b:"Сатурн", o:"3°41′", g:"\u25A1",
+   text:"Чувства под замком: самокритика, «я не заслужил», страх проявлять себя. Выход — разрешить себе заботу."},
+  {a:"Луна", t:"секстиль", b:"Плутон", o:"3°48′", g:"\u26B9",
+   text:"Глубина без саморазрушения: чутьё на мотивы, умение пройти кризис и выйти крепче."},
+  {a:"Юпитер", t:"квадрат", b:"Уран", o:"3°55′", g:"\u25A1",
+   text:"Жажда нового против страха перемен: то рвёт вперёд, то цепляется за знакомое. Риск скоропалительных решений."},
+  {a:"Солнце", t:"соединение", b:"Меркурий", o:"4°12′", g:"\u260C",
+   text:"Воля и мысль — одно: что решил, то и говорит. «Я» ясное, но мнения упрямые."},
+  {a:"Марс", t:"трин", b:"Венера", o:"4°15′", g:"\u25B3",
+   text:"Действие и желание совпадают: энергия идёт туда, где нравится. Харизма без надрыва."},
+  {a:"Марс", t:"секстиль", b:"Меркурий", o:"4°43′", g:"\u26B9",
+   text:"Энергия и ум в паре: быстрый острый ум, спор по делу."},
+  {a:"Венера", t:"соединение", b:"Сатурн", o:"5°37′", g:"\u260C",
+   text:"Любовь взрослеет рано: чувства серьёзные, сдержанные, надолго."}
+];
+
+const TAGS = [
+  {g:"\u2609", title:"Твой характер",
+   text:"Снаружи — открытость, оптимизм и лёгкость на подъём; внутри — дисциплина, честолюбие и план: ставит цель и идёт к ней медленно, но без срывов, требует от себя больше, чем от других. Эмоции аналитичные и сдержанные: спокойствие наступает, когда всё разложено по полкам, чувства выражает заботой и делом, а не словами. Подчёркнутая независимость: жить по чужим правилам не умеет и не хочет. Ум острый и обращён в будущее. В итоге — оптимист снаружи и аскет внутри."},
+  {g:"\u2645", title:"Как видят окружающие",
+   text:"Выделяется с первого взгляда: нестандартная внешность и манера, такого человека трудно не заметить. Первое впечатление — открытое и оптимистичное, но оно обманчиво: внутри он серьёзнее и собраннее, чем кажется. Образ окутан загадочностью — до конца его не прочитать, он ускользает от определений. Окружающие делятся на тех, кто видит лёгкого энтузиаста, и тех, кто чувствует жёсткий стержень, — обе стороны в нём есть, но целиком его не видит никто."},
+  {g:"\u2640", title:"Любовь и отношения",
+   text:"В любви он сдержан: чувства прячутся и идеализируются, часто остаются невысказанными; раскрывается медленно, но надолго — сначала доверие, потом глубина и верность. В отношениях ищет свободу и общий смысл, а не быт: теснота чувства гасит. Близость нужна подлинная и глубокая, поверхностные связи не устраивают. Страсть и желание в нём согласованы: в любви есть и тепло, и напор. Одно напряжение — спор между потребностью в надёжности и тягой к свободе и идеалу."},
+  {g:"\u2647", title:"Деньги и карьера",
+   text:"Доход приходит через творчество, помощь другим и веру в своё дело: деньги приходят легко, но и уходят щедро — накапливать трудно. Призвание — работа с властью, исследованием и глубинным: психология, аналитика, кризис-менеджмент. Работа ощущается как судьба, а не занятие. Рост то упирается в стену, то срывается внезапными переменами: нужен баланс между «больше» и «выдержать». В делах — смелость и скорость, действует первым."},
+  {g:"\u2695", title:"Здоровье",
+   text:"Уязвимое место — кожа, кости, зубы и суставы: склонность к аллергиям, высыпаниям и раздражениям, реакция на косметику, бытовую химию и внешнюю среду. Возможна сухость кожи. Дополнительно уязвимы лёгкие и нервная система. Есть хроническое слабое место, но именно через него он умеет помогать другим. Тревожность и самокритика уходят в тело. Главное — беречь кожу, не запускать аллергии и давать нервной системе отдых."}
+];
+
+function renderTags(){
+  document.getElementById('tags').innerHTML = TAGS.map((t,i)=>`
+    <span class="tag" onclick="openTag(${i})">${t.title}</span>`).join('');
+}
+function openTag(i){
+  const t = TAGS[i];
+  const sh = document.getElementById('sheet');
+  sh.innerHTML = `
+    <div class="sh-top">
+      <div class="sh-glyph">${t.g}</div>
+      <div><h3>${t.title}</h3><div class="sh-sub">Твоя карта</div></div>
+      <div class="sh-close" onclick="closeModal()">&times;</div>
+    </div>
+    <p style="margin-top:6px">${t.text}</p>`;
+  document.getElementById('overlay').classList.add('on');
+}
+
+function renderPlanets(){
+  const root = document.getElementById('planets');
+  root.innerHTML = PLANETS.map((p,i)=>`
+    <div class="pcard" onclick="openPlanet(${i})">
+      <div class="glyph">${p.glyph}</div>
+      <div class="pinfo">
+        <div class="pname">${p.name} · ${p.sign}${p.retro ? ' <span style="color:#ff9d9d;font-size:11px">R</span>' : ''}</div>
+        <div class="psub">${p.sub}</div>
+      </div>
+      <div class="pbadge">${p.house}</div>
+    </div>`).join('');
+}
+function renderHouses(){
+  document.getElementById('houses').innerHTML = HOUSES.map(h=>`
+    <div class="hcard" onclick="openHouse('${h.n}')">
+      <div class="hrow"><span class="hnum">${h.n} дом</span><span class="hg">${h.g}</span></div>
+      <div class="hdeg">${h.sign} ${h.deg}</div>
+      <div class="hkey">${h.key}</div>
+    </div>`).join('');
+}
+function renderAspects(){
+  document.getElementById('aspects').innerHTML = ASPECTS.map((a,i)=>`
+    <div class="asp" onclick="openAspect(${i})">
+      <span class="ag">${a.g}</span>
+      <span class="ap">${a.a}</span><span class="at">${a.t}</span><span class="ap">${a.b}</span>
+      <span class="ao">${a.o}</span>
+    </div>`).join('');
+}
+function openPlanet(i){
+  const p = PLANETS[i];
+  const sh = document.getElementById('sheet');
+  sh.innerHTML = `
+    <div class="sh-top">
+      <div class="sh-glyph">${p.glyph}</div>
+      <div><h3>${p.name}</h3><div class="sh-sub">${p.sign} · ${p.deg}${p.retro ? ' R' : ''} · ${p.house}</div></div>
+      <div class="sh-close" onclick="closeModal()">&times;</div>
+    </div>
+    <div class="badges"><span class="badge">${p.sub}</span></div>
+    <p><span class="hl">В знаке:</span> ${p.signText}</p>
+    <p><span class="hl">В доме:</span> ${p.houseText}</p>`;
+  document.getElementById('overlay').classList.add('on');
+}
+function openAspect(i){
+  const a = ASPECTS[i];
+  const sh = document.getElementById('sheet');
+  sh.innerHTML = `
+    <div class="sh-top">
+      <div class="sh-glyph">${a.g}</div>
+      <div><h3>${a.a} ${a.t} ${a.b}</h3><div class="sh-sub">Орб ${a.o}</div></div>
+      <div class="sh-close" onclick="closeModal()">&times;</div>
+    </div>
+    <p style="margin-top:4px">${a.text}</p>`;
+  document.getElementById('overlay').classList.add('on');
+}
+function openHouse(n){
+  const h = HOUSES.find(x=>x.n===n);
+  const sh = document.getElementById('sheet');
+  sh.innerHTML = `
+    <div class="sh-top">
+      <div class="sh-glyph">${h.g}</div>
+      <div><h3>${h.n} дом · ${h.sign}</h3><div class="sh-sub">Куспид ${h.deg}</div></div>
+      <div class="sh-close" onclick="closeModal()">&times;</div>
+    </div>
+    <div class="badges"><span class="badge">${h.key}</span></div>
+    <div class="kv"><span>Управитель</span><span>${ruler(h.sign)}</span></div>
+    <div class="kv"><span>Планеты в доме</span><span>${h.planets}</span></div>
+    <p><span class="hl">Куспид в знаке:</span> ${h.signText}</p>
+    <p><span class="hl">Планеты в доме:</span> ${h.houseText}</p>`;
+  document.getElementById('overlay').classList.add('on');
+}
+function closeModal(){ document.getElementById('overlay').classList.remove('on'); }
+function element(s){
+  const map={Овен:"Огонь",Лев:"Огонь",Стрелец:"Огонь",Телец:"Земля",Дева:"Земля",Козерог:"Земля",
+    Близнецы:"Воздух",Весы:"Воздух",Водолей:"Воздух",Рак:"Вода",Скорпион:"Вода",Рыбы:"Вода"};
+  return map[s]||"—";
+}
+function ruler(s){
+  const map={Овен:"Марс",Телец:"Венера",Близнецы:"Меркурий",Рак:"Луна",Лев:"Солнце",Дева:"Меркурий",
+    Весы:"Венера",Скорпион:"Плутон / Марс",Стрелец:"Юпитер",Козерог:"Сатурн",Водолей:"Уран / Сатурн",Рыбы:"Нептун / Юпитер"};
+  return map[s]||"—";
+}
+renderPlanets(); renderHouses(); renderAspects(); renderTags();
+</script>
+</body>
+</html>
